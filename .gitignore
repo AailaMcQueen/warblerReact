@@ -1,2 +1,3 @@
-warb-client/node-modules
-warb-server/node-modules
+warb-client/node_modules
+warb-server/node_modules
+warb-server/.env
