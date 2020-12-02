@@ -7,7 +7,7 @@ const errorHandler = require("./handlers/error")
 const authRoutes = require("./routes/auth")
 const messagesRoutes = require("./routes/messages")
 const { loginRequired, ensureCorrectUser } = require("./middlewares/auth");
-const { db } = require("./models");
+const  db  = require("./models");
 const PORT = 8081;
 
 app.use(cors());
@@ -25,6 +25,7 @@ app.get("/api/messages", loginRequired, async function(req, res, next){
         return res.status(200).json(messages);
     }
     catch(err){
+        console.log("Here!")
         return next(err);
     }
 })

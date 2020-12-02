@@ -4,22 +4,23 @@ import { Switch, Route, withRouter, Redirect} from "react-router-dom"
 import Homepage from "../components/Homepage"
 import AuthForm from "../components/AuthForm"
 import {authUser} from "../store/actions/auth"
+import {removeError} from "../store/actions/errors"
 
 const Main = props => {
-    const {authUser} = props;
+    const {authUser, error, removeError, currentUser} = props;
     return (
         <div className="container">
             <Switch>
-                <Route exact path="/" render={ props => <Homepage {...props}/>}></Route>
+                <Route exact path="/" render={ props => <Homepage currentUser={currentUser} {...props}/>}></Route>
                 <Route exact path="/signin" render={ props => {
                     return (
-                        <AuthForm onAuth={authUser} buttonText="Log In!" heading="Welcome back!" {...props}></AuthForm>
+                        <AuthForm removeError={removeError} errors={error} onAuth={authUser} buttonText="Log In!" heading="Welcome back!" {...props}></AuthForm>
                     )
                 }}
                 />
                 <Route exact path="/signup" render={ props => {
                     return (
-                        <AuthForm onAuth={authUser} signUp buttonText="Sign Up!!" heading="Join the Community!" {...props}></AuthForm>
+                        <AuthForm removeError={removeError} errors={error} onAuth={authUser} signUp buttonText="Sign Up!!" heading="Join the Community!" {...props}></AuthForm>
                     )
                 }}
                 />
@@ -30,8 +31,9 @@ const Main = props => {
 
 function mapStateToProps(state){
     return {
-        currentUser: state.currentUser
+        currentUser: state.currentUser,
+        error: state.errors,
     }
 }
 
-export default withRouter(connect(mapStateToProps, {authUser})(Main));
+export default withRouter(connect(mapStateToProps, {authUser, removeError})(Main));
